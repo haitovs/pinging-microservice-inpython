@@ -2,9 +2,9 @@ on:
   push:
     branches: [main]  # Trigger workflow on push to main branch
   repository_dispatch:  # Trigger workflow on repository dispatch events
-  workflow_dispatch:  # Allow manual triggering of the workflow
   schedule:
     - cron: "*/5 * * * *"  # Schedule workflow to run every 5 minutes
+  workflow_dispatch:  # Allow manual triggering of the workflow
 
 jobs:
   build:
