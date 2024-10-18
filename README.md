@@ -1,60 +1,57 @@
-# Pinging Server
+# Pinging Microservice
 
 ## Overview
 
-The Pinging Server is a tool designed to monitor and track the response times of various network endpoints. It performs two main tasks:
+The Pinging Microservice monitors network endpoints by checking both ping response times and port availability. It performs two main tasks:
 
-1. **Ping Monitoring**: It continuously pings specified IP addresses or URLs to measure their round-trip time (RTT) in milliseconds. This helps in assessing the latency and availability of the network endpoints.
-
-2. **Port Monitoring**: It checks the availability of a specific port (default is port 443) on the target IP addresses. This is useful for determining if services such as HTTPS are accessible.
+1. **Ping Monitoring**: Measures round-trip time (RTT) for specified IP addresses or URLs.
+2. **Port Monitoring**: Checks if a specified port (default: 443) is accessible.
 
 ## Features
 
-- **Real-Time Monitoring**: Provides up-to-date RTT measurements for both ping and port checks.
-- **Concurrent Processing**: Uses multithreading to perform multiple checks simultaneously, enhancing performance.
-- **Logging**: Records results and errors in a log file for review and analysis.
-- **Dynamic Configuration**: Configurable through environment variables, allowing for flexible usage in various environments.
+- Real-time RTT and port availability monitoring
+- Multithreaded checks for improved performance
+- Dynamic configuration via environment variables
+- Error logging for results and issues
+- Automatic updates of monitoring results to JSON files
 
 ## Usage
 
-1. **Configuration**: Define the target IP addresses or URLs in the `target.txt` file. Each entry should be on a new line.
-
-2. **Execution**: Run the script to start monitoring. The script will perform both ping and port checks and save the results to `output.txt`.
-
-3. **Review Results**: Check `output.txt` for the results of the monitoring. The file will include RTT measurements for both ping and port checks.
+1. **Configuration**: List target IPs or URLs in the `target.txt` file.
+2. **Execution**: Run the script to start monitoring and save results in JSON files.
+3. **Review**: Check the `output` directory for the results.
 
 ## Setup
 
 1. Clone the repository:
 
    ```sh
-   git clone https://github.com/haitovs/pinging-server-main.git
+   git clone https://github.com/haitovs/pinging-microservice-inpython.git
    ```
 
 2. Install dependencies:
 
    ```sh
-   npm install
+   pip install -r requirements.txt
    ```
 
-3. Configure environment variables:
-
-   - Set up `URL` and `URL2` in your environment or in a `.env` file, if required by the script.
-
+3. Set environment variables (e.g., `URL`, `URL2`).
 4. Run the script:
 
    ```sh
-   npm run build
+   python index.py
    ```
+
+## GitHub Actions
+
+The project uses GitHub Actions for automatic execution on push events and scheduled runs every 5 minutes.
 
 ## Contributing
 
-Contributions are welcome! Please open an issue or submit a pull request if you have improvements or fixes.
+Contributions are welcome! Open an issue or submit a pull request for improvements.
 
 ## License
 
-This project is licensed under the MIT License.
+Licensed under the MIT License.
 
 ---
-
-Feel free to adjust any sections to better fit your project’s specifics!
