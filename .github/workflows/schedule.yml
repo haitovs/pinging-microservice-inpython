@@ -1,41 +1,55 @@
+name: Fetch Data and Update
+
+permissions:
+  contents: write  # Needed for pushing changes
+
 on:
   push:
-    branches: [master]  # Trigger workflow on push to main branch
-  repository_dispatch:  # Trigger workflow on repository dispatch events
+    branches: [ master ]   # Change this if your default branch is 'master'
+  repository_dispatch:
   schedule:
-    - cron: "*/5 * * * *"  # Schedule workflow to run every 5 minutes
-  workflow_dispatch:  # Allow manual triggering of the workflow
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
 
 jobs:
   build:
-    name: Fetch Data  # Job name
-    runs-on: ubuntu-latest  # Use the latest Ubuntu runner
+    name: Fetch Data
+    runs-on: ubuntu-latest
+
+    env:
+      URL2: ${{ secrets.URL2 }}
 
     steps:
-      - uses: actions/checkout@v3  # Check out the repository
+      - name: Check out repository
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Python
-        uses: actions/setup-python@v4  # Set up Python environment
+        uses: actions/setup-python@v4
         with:
-          python-version: '3.9'  # Specify Python version
+          python-version: '3.9'
 
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip  # Upgrade pip
-          pip install -r requirements.txt  # Install dependencies from requirements.txt
-
-      - name: Set environment variables
-        run: echo "URL2=${{ secrets.URL2 }}" >> $GITHUB_ENV  # Set URL2 from secret
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
       - name: Run Python script
-        run: python index.py  # Run your Python script (replace 'index.py' if needed)
+        run: python index.py
 
       - name: Commit and Push Report
         run: |
-          git config --global user.name "${{ secrets.USERNAME }}"  # Configure user name from secret
-          git config --global user.email "${{ secrets.EMAIL }}"  # Configure user email from secret
-          git remote set-url origin https://github.com/${{ github.repository }}  # Set remote URL without token
+          # Configure git
+          git config user.name "${{ secrets.USERNAME }}"
+          git config user.email "${{ secrets.EMAIL }}"
+          git remote set-url origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
 
-          git add -A  # Add all changes
-          git commit -m "Automated data update" || echo "No changes to commit"  # Commit changes if there are any
-          git push --force --set-upstream origin main || echo "No changes to push"  # Push changes or log if nothing to push
+          # Check current branch
+          git branch
+          git checkout master  # Ensure we are on master branch (if your default branch is master)
+
+          # Add, commit, push
+          git add -A
+          git commit -m "Automated data update" || echo "No changes to commit"
+          git push --force origin master || echo "No changes to push"

@@ -1,17 +1,19 @@
-import os
+from pathlib import Path
 from datetime import datetime
 
 # Define today's date
 today = datetime.now().strftime("%Y-%m-%d")
 
-# Adjust the directory path to be one level above the 'src' directory and normalize it
-dir_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../data"))
+# Define the base directory (assuming 'config.py' is in 'src/')
+base_dir = Path(__file__).resolve().parent.parent  # Adjust as per your project structure
+
+# Define the data directory
+data_dir = base_dir / "data"
 
 # Ensure the data directory exists
-if not os.path.exists(dir_path):
-    os.makedirs(dir_path)  # Create the directory if it doesn't exist
+data_dir.mkdir(parents=True, exist_ok=True)
 
 # Define the JSON file paths
-today_json_file = os.path.join(dir_path, f"{today}.json")
-host_list_file = os.path.join(dir_path, "db.json")
-file_list_path = os.path.join(dir_path, "files.json")
+today_json_file = data_dir / f"{today}.json"
+host_list_file = data_dir / "db.json"
+file_list_path = data_dir / "files.json"
