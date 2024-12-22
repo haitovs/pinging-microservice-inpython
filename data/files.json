@@ -25,6 +25,11 @@
         "byteSize": 54569208
     },
     {
+        "name": "2024-12-22.json",
+        "sstpCount": 1068,
+        "byteSize": 473591
+    },
+    {
         "name": "2024-12-16.json",
         "sstpCount": 120268,
         "byteSize": 53019445
